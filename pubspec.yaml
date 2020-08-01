@@ -23,13 +23,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cloud_firestore: ^0.13.7
-  firebase_auth: ^0.16.1
-  firebase_storage: ^3.1.6
-  firebase_messaging: ^6.0.16
+  
   intl: ^0.16.1
   font_awesome_flutter: ^8.8.1
-  flappy_search_bar: ^1.7.2
+  
   get_it: ^1.0.3+2
   url_launcher: ^5.0.3
   image_picker: ^0.6.7+4
@@ -63,6 +60,14 @@ flutter:
     - assets/images/password_icon.png
     - assets/images/signup_button.png
     - assets/images/user_icon.png
+    - assets/images/Andaman_Padauk_Tree.jpeg
+    - assets/images/dugong.jpeg
+    - assets/images/Andaman_Wood_Pigeon.jpg
+    - assets/images/pyinma.jpeg
+    - assets/images/Padauk_Tree.jpg
+    - assets/images/hawksbill.jpeg
+    - assets/images/narcondam_hornbill.jpeg
+    - assets/images/nicobar_megapode.jpeg
   
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -22,7 +22,7 @@ class DiscussionsScreen extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
-                  colors: <Color>[Colors.indigo, Colors.indigo[800]],
+                  colors: <Color>[Colors.indigo, Colors.indigo[600]],
                 ),
               ),
             ),
