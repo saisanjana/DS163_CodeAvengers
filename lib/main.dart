@@ -3,7 +3,6 @@ import './screens/nav_screen.dart';
 import './screens/auth_screen.dart';
 import './calls_and_msgs_service.dart';
 import 'package:get_it/get_it.dart';
-
 GetIt locator = GetIt();
 
 void setupLocator() {
