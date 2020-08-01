@@ -3,6 +3,7 @@ import './screens/nav_screen.dart';
 import './screens/auth_screen.dart';
 import './calls_and_msgs_service.dart';
 import 'package:get_it/get_it.dart';
+import './screens/match_game.dart';
 GetIt locator = GetIt();
 
 void setupLocator() {
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
       home: AuthScreen(),
       routes: {
         NavScreen.routeName: (ctx) => NavScreen(),
+        MatchGame.routeName:(ctx)=>MatchGame(),
       },
     );
   }
