@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import './match_game.dart';
+import './crossword.dart';
+
 class GamesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,8 @@ class GamesScreen extends StatelessWidget {
                       children: <Widget>[
                         GestureDetector(
                           onTap: () {
-                            Navigator.of(context).pushNamed(MatchGame.routeName);
+                            Navigator.of(context)
+                                .pushNamed(MatchGame.routeName);
                           },
                           child: Card(
                             shape: RoundedRectangleBorder(
@@ -58,37 +61,43 @@ class GamesScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0)),
-                          elevation: 5,
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.all(size.width * 0.02),
-                                width: size.width * 0.35,
-                                padding: EdgeInsets.all(size.width * 0.05),
-                                child: Text(
-                                  "Crossword",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.centerLeft,
-                                    end: Alignment.centerRight,
-                                    colors: <Color>[
-                                      Colors.green[300],
-                                      Colors.green
-                                    ],
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pushNamed(CrossWord.routeName);
+                          },
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            elevation: 5,
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.all(size.width * 0.02),
+                                  width: size.width * 0.35,
+                                  padding: EdgeInsets.all(size.width * 0.05),
+                                  child: Text(
+                                    "Crossword",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: <Color>[
+                                        Colors.green[300],
+                                        Colors.green
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Container(
-                                  width: size.width * 0.35,
-                                  child: Text(
-                                      "A Crossword game for everyone to get familiar with species of Andaman.")),
-                            ],
+                                Container(
+                                    width: size.width * 0.35,
+                                    child: Text(
+                                        "A Crossword game for everyone to get familiar with species of Andaman.")),
+                              ],
+                            ),
                           ),
                         ),
                       ],

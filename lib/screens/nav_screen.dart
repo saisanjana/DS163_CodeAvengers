@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:protecto/screens/home_screen.dart';
 import './discussions_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:protecto/screens/dummy_screen.dart';
+//import 'package:protecto/screens/dummy_screen.dart';
 import './call_screen.dart';
 import './games_screen.dart';
 class NavScreen extends StatelessWidget {
   static const routeName = "navscreen";
   final List<Widget> _screens=[
-    DummyScreen(),
+    HomeScreen(),
     GamesScreen(),
     DiscussionsScreen(),
     CallScreen(),

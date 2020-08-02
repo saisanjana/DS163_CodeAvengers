@@ -204,6 +204,46 @@ class _CallScreenState extends State<CallScreen> {
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+              padding: EdgeInsets.all(10),
+              child: Text(
+                "Or Upload an image and location to the officer",
+                style: TextStyle(
+                    fontFamily: "SourceCodePro",
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: <Color>[Colors.indigo[300], Colors.indigo],
+                ),
+              ),
+            ),
+            SizedBox(height: 20,),
+            Container(
+              height: 200,
+              width: MediaQuery.of(context).size.width*0.5,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(border:Border.all(color:Colors.black,width:2),),
+              child: Text("Upload Image"),
+            ),
+            SizedBox(height: 20,),
+            Container(
+              height: 200,
+              width: MediaQuery.of(context).size.width*0.5,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(border:Border.all(color:Colors.black,width:2),),
+              child: Text("Location"),
+            ),
+            SizedBox(height: 20,),
+            RaisedButton(onPressed: (){} , child:Text("Report"),),
           ],
         ),
       ),
