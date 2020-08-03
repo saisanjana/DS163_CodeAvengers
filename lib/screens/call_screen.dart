@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import '../calls_and_msgs_service.dart';
 import '../main.dart';
+import '../widgets/image_picker.dart';
+import 'dart:io';
+import 'package:location/location.dart';
+import '../widgets/user_location.dart';
 class CallScreen extends StatefulWidget {
+
   @override
   _CallScreenState createState() => _CallScreenState();
 }
@@ -66,6 +71,26 @@ class _CallScreenState extends State<CallScreen> {
   void calls(String num){
     num="+91"+num;
     _service.call(num);
+  }
+  var _init=true;
+  double lat=17.7074834;
+  double long=83.3112924;
+  File _image;
+  @override
+  void didChangeDependencies() async{
+    if(_init==true){
+      final locationData = await Location().getLocation();
+     
+    setState(() {
+      lat = (locationData.latitude);
+     long = (locationData.longitude);
+    });
+    }
+    _init=false;
+    super.didChangeDependencies();
+  }
+  void _setImage(File image){
+    _image=image;
   }
   @override
   Widget build(BuildContext context) {
@@ -232,7 +257,7 @@ class _CallScreenState extends State<CallScreen> {
               width: MediaQuery.of(context).size.width*0.5,
               alignment: Alignment.center,
               decoration: BoxDecoration(border:Border.all(color:Colors.black,width:2),),
-              child: Text("Upload Image"),
+              child: ImageGetter(_setImage,true),
             ),
             SizedBox(height: 20,),
             Container(
@@ -240,10 +265,12 @@ class _CallScreenState extends State<CallScreen> {
               width: MediaQuery.of(context).size.width*0.5,
               alignment: Alignment.center,
               decoration: BoxDecoration(border:Border.all(color:Colors.black,width:2),),
-              child: Text("Location"),
+              child: UserLocation(lat,long),
             ),
             SizedBox(height: 20,),
-            RaisedButton(onPressed: (){} , child:Text("Report"),),
+            RaisedButton(onPressed: (){
+              print(lat);
+            } , child:Text("Report"),),
           ],
         ),
       ),

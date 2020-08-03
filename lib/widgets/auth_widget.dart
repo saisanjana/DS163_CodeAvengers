@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:protecto/screens/nav_screen.dart';
 
@@ -40,6 +42,35 @@ class _AuthWidgetState extends State<AuthWidget>
     );
   }
 
+  void login(email, password) async {
+    final user = (await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: password))
+        .user;
+  }
+
+  void signup(email, password, name) async {
+    final user = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .catchError((e) {
+      print(e.toString());
+      return;
+    });
+    await Firestore.instance
+        .collection('users')
+        .document(user.user.uid)
+        .setData({
+      'name': name,
+      'email': email,
+      'uid': user.user.uid,
+    });
+    print("Done");
+    user.user.sendEmailVerification();
+  }
+
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController name = TextEditingController();
+  TextEditingController confirm = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -81,38 +112,60 @@ class _AuthWidgetState extends State<AuthWidget>
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          decoration: BoxDecoration(border:Border.all(color: Colors.white),borderRadius: BorderRadius.circular(20),),
-                          height: MediaQuery.of(context).size.height*0.07,
-                          width: MediaQuery.of(context).size.width*0.7,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          height: MediaQuery.of(context).size.height * 0.07,
+                          width: MediaQuery.of(context).size.width * 0.7,
                           child: ListTile(
-                            leading:ImageIcon(AssetImage("assets/images/mail_icon.png"),color: Colors.white,size: 40,),
-                            title: TextField(decoration: InputDecoration(
-                              hintText: "Email",
-                              hintStyle:TextStyle(color:Colors.white70,fontSize: 19) ,
-                              border:InputBorder.none,
-                            ),),
+                            leading: ImageIcon(
+                              AssetImage("assets/images/mail_icon.png"),
+                              color: Colors.white,
+                              size: 40,
+                            ),
+                            title: TextField(
+                              controller: email,
+                              decoration: InputDecoration(
+                                hintText: "Email",
+                                hintStyle: TextStyle(
+                                    color: Colors.white70, fontSize: 19),
+                                border: InputBorder.none,
+                              ),
+                            ),
                           ),
                         ),
-                        SizedBox(height:10),
+                        SizedBox(height: 10),
                         Container(
                           //padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(border:Border.all(color: Colors.white),borderRadius: BorderRadius.circular(20),),
-                          height: MediaQuery.of(context).size.height*0.07,
-                          width: MediaQuery.of(context).size.width*0.7,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          height: MediaQuery.of(context).size.height * 0.07,
+                          width: MediaQuery.of(context).size.width * 0.7,
                           child: ListTile(
-                            leading:ImageIcon(AssetImage("assets/images/password_icon.png"),color: Colors.white,size: 35,),
-                            title: TextField(decoration: InputDecoration(
-                              hintText: "Password",
-                              hintStyle:TextStyle(color:Colors.white70,fontSize: 19) ,
-                              border:InputBorder.none,
+                            leading: ImageIcon(
+                              AssetImage("assets/images/password_icon.png"),
+                              color: Colors.white,
+                              size: 35,
                             ),
-                            obscureText: true,),
+                            title: TextField(
+                              controller: password,
+                              decoration: InputDecoration(
+                                hintText: "Password",
+                                hintStyle: TextStyle(
+                                    color: Colors.white70, fontSize: 19),
+                                border: InputBorder.none,
+                              ),
+                              obscureText: true,
+                            ),
                           ),
                         ),
-                        SizedBox(height:20),
+                        SizedBox(height: 20),
                         GestureDetector(
-                          onTap: (){
-                            Navigator.of(context).pushReplacementNamed(NavScreen.routeName);
+                          onTap: () {
+                            login(email.text, password.text);
                           },
                           child: Image.asset("assets/images/login_button.png"),
                         ),
@@ -130,78 +183,121 @@ class _AuthWidgetState extends State<AuthWidget>
                         bottomRight: Radius.circular(30.0)),
                   ),
                   child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          decoration: BoxDecoration(border:Border.all(color: Colors.white),borderRadius: BorderRadius.circular(20),),
-                          height: MediaQuery.of(context).size.height*0.07,
-                          width: MediaQuery.of(context).size.width*0.7,
-                          child: ListTile(
-                            leading:ImageIcon(AssetImage("assets/images/mail_icon.png"),color: Colors.white,size: 40,),
-                            title: TextField(decoration: InputDecoration(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        height: MediaQuery.of(context).size.height * 0.07,
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        child: ListTile(
+                          leading: ImageIcon(
+                            AssetImage("assets/images/mail_icon.png"),
+                            color: Colors.white,
+                            size: 40,
+                          ),
+                          title: TextField(
+                            controller: email,
+                            decoration: InputDecoration(
                               hintText: "Email",
-                              hintStyle:TextStyle(color:Colors.white70,fontSize: 19) ,
-                              border:InputBorder.none,
-                            ),),
+                              hintStyle: TextStyle(
+                                  color: Colors.white70, fontSize: 19),
+                              border: InputBorder.none,
+                            ),
                           ),
                         ),
-                        SizedBox(height:10),
-                        Container(
-                          decoration: BoxDecoration(border:Border.all(color: Colors.white),borderRadius: BorderRadius.circular(20),),
-                          height: MediaQuery.of(context).size.height*0.07,
-                          width: MediaQuery.of(context).size.width*0.7,
-                          child: ListTile(
-                            leading:ImageIcon(AssetImage("assets/images/user_icon.png"),color: Colors.white,size: 40,),
-                            title: TextField(decoration: InputDecoration(
+                      ),
+                      SizedBox(height: 10),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        height: MediaQuery.of(context).size.height * 0.07,
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        child: ListTile(
+                          leading: ImageIcon(
+                            AssetImage("assets/images/user_icon.png"),
+                            color: Colors.white,
+                            size: 40,
+                          ),
+                          title: TextField(
+                            controller: name,
+                            decoration: InputDecoration(
                               hintText: "Name",
-                              hintStyle:TextStyle(color:Colors.white70,fontSize: 19) ,
-                              border:InputBorder.none,
-                            ),),
+                              hintStyle: TextStyle(
+                                  color: Colors.white70, fontSize: 19),
+                              border: InputBorder.none,
+                            ),
                           ),
                         ),
-                        SizedBox(height:10),
-                        Container(
-                          //padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(border:Border.all(color: Colors.white),borderRadius: BorderRadius.circular(20),),
-                          height: MediaQuery.of(context).size.height*0.07,
-                          width: MediaQuery.of(context).size.width*0.7,
-                          child: ListTile(
-                            leading:ImageIcon(AssetImage("assets/images/password_icon.png"),color: Colors.white,size: 35,),
-                            title: TextField(decoration: InputDecoration(
+                      ),
+                      SizedBox(height: 10),
+                      Container(
+                        //padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        height: MediaQuery.of(context).size.height * 0.07,
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        child: ListTile(
+                          leading: ImageIcon(
+                            AssetImage("assets/images/password_icon.png"),
+                            color: Colors.white,
+                            size: 35,
+                          ),
+                          title: TextField(
+                            controller: password,
+                            decoration: InputDecoration(
                               hintText: "Password",
-                              hintStyle:TextStyle(color:Colors.white70,fontSize: 19) ,
-                              border:InputBorder.none,
+                              hintStyle: TextStyle(
+                                  color: Colors.white70, fontSize: 19),
+                              border: InputBorder.none,
                             ),
-                            obscureText: true,),
+                            obscureText: true,
                           ),
                         ),
-                        SizedBox(height:10),
-                        Container(
-                          //padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(border:Border.all(color: Colors.white),borderRadius: BorderRadius.circular(20),),
-                          height: MediaQuery.of(context).size.height*0.07,
-                          width: MediaQuery.of(context).size.width*0.7,
-                          child: ListTile(
-                            leading:ImageIcon(AssetImage("assets/images/password_icon.png"),color: Colors.white,size: 35,),
-                            title: TextField(decoration: InputDecoration(
+                      ),
+                      SizedBox(height: 10),
+                      Container(
+                        //padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        height: MediaQuery.of(context).size.height * 0.07,
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        child: ListTile(
+                          leading: ImageIcon(
+                            AssetImage("assets/images/password_icon.png"),
+                            color: Colors.white,
+                            size: 35,
+                          ),
+                          title: TextField(
+                            controller: confirm,
+                            decoration: InputDecoration(
                               hintText: "Confirm Password",
-                              hintStyle:TextStyle(color:Colors.white70,fontSize: 19) ,
-                              border:InputBorder.none,
+                              hintStyle: TextStyle(
+                                  color: Colors.white70, fontSize: 19),
+                              border: InputBorder.none,
                             ),
-                            obscureText: true,),
+                            obscureText: true,
                           ),
                         ),
-
-                        SizedBox(height:20),
-                        GestureDetector(
-                          onTap: (){
-                            Navigator.of(context).pushReplacementNamed(NavScreen.routeName);
-                          },
-                          child: Image.asset("assets/images/signup_button.png"),
-                        ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 20),
+                      GestureDetector(
+                        onTap: () {
+                          signup(email.text, password.text, name.text);
+                        },
+                        child: Image.asset("assets/images/signup_button.png"),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
